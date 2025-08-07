@@ -7,6 +7,7 @@ export default class Server{
     constructor(private readonly productView: ProductView){ //la responsabilidad del 
         //constructor es crear el servidor mas no crear 
         this.app = express()
+        this.configure()
         this.routes()
     }
 

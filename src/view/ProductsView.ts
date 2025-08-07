@@ -14,7 +14,7 @@ constructor(private readonly productController: ProductController) {
         this.router.get('/products/img/:id', this.productController.getProductImageById);
         this.router.get('/products/:id', this.productController.getProductById);
         this.router.get('/products', this.productController.getProduct); 
-        this.router.post('/products', this.productController.getProduct);
+        this.router.post('/products', this.productController.createProduct);
         //de las mas detalladas hasta la raiz 
         //this.router.get('/products/discounted/q', this.productController.getDiscountedProducts) para el query!!!
     }

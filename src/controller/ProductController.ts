@@ -85,12 +85,32 @@ export default class ProductController{
       
     };
 
-    //readonly createProducts = async (
-      //req: Request
-      //res: Response
-    //): Promise<void> => {
-     // const product = req.body as ProductInterface
-    //} 
+  readonly createProduct = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const newProduct = req.body;
+
+  // Validación básica
+  if (!newProduct.title || !newProduct.price) {
+    res.status(400).json({ message: 'Missing required fields: name or price' });
+    return;
+  }
+
+  try {
+    const savedProduct = await this.productModel.createProduct(newProduct);
+
+    if (!savedProduct) {
+      res.status(500).json({ message: 'Failed to save product' });
+      return;
+    }
+
+    res.status(201).json({ message: 'Product created', product: savedProduct });
+  } catch (error) {
+    console.error('Error creating product:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
     //en el modelo crear un utilitario que use el filesistem para un metodo de escribir y un metodo de leer, debe quedar afuera a nivel de archivos y esto es la utils
 
 

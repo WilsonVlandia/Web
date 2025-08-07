@@ -91,6 +91,32 @@ export default class ProductModel{
     }
   }
 
+readonly createProduct = async (newProduct: ProductInterface): Promise<ProductInterface> => {
+  try {
+    const filePath = path.join(__dirname, '../../database/products.json');
+    
+    // Leer productos actuales
+    const data = await fs.readFile(filePath, 'utf-8');
+    const products: ProductInterface[] = JSON.parse(data);
+
+    // Asignar un nuevo ID si es necesario
+    const maxId = products.reduce((max, p) => p.id > max ? p.id : max, 0);
+    newProduct.id = maxId + 1;
+
+    // Agregar nuevo producto
+    products.push(newProduct);
+
+    // Escribir productos actualizados en el archivo
+    await fs.writeFile(filePath, JSON.stringify(products, null, 2));
+
+    return newProduct;
+
+  } catch (error) {
+    console.error('Error creating product:', error);
+    return NullProduct;
+  }
+}
+
 } 
 
     
